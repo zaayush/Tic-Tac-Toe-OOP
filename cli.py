@@ -1,94 +1,151 @@
 from logic import check_winner
-# Function to print Tic Tac Toe
-def make_empty_board():
-    return [
-        [None, None, None],
-        [None, None, None],
-        [None, None, None],
-    ]
-    
+import random
 
-# Reminder to check all the tests
-def get_player_input(current_player):
-    prompt = f"player {current_player}, Please input your move \n"
-    player_input = input(prompt)
-      
-    row_col_list = player_input.split(',')
-    row, col = [int(x) for x in row_col_list]   
-    return row, col
-    '''elif player_input == 9:
-        row = '0'
-        col = '2'
-    elif player_input == 4:
-        row, col = '1','0'
-    elif player_input == 5:
-        row, col = '1','1'
-    elif player_input == 6:
-        row, col = '1','2'
-    elif player_input == 1:
-        row, col = '2','0'
-    elif player_input == 2:
-        row, col = '2','1'
-    elif player_input == 3:
-        row, col = '2','2'
-    '''
-    
-    
+class TicTacToeGame:
+    def __init__(self):
+        self.current_player = 'X'
+        self.board = self.make_empty_board()
+        self.winner = None
 
-def show_board(board):
-    # For printing blank space instead of None
-    board2 = [
-        [None, None, None],
-        [None, None, None],
-        [None, None, None],
-    ]
-    for a in range(3):
-        for b in range(3):
-            if board[a][b] == None:
-                board2[a][b] = ' '
-            else: 
-                board2[a][b] = board[a][b]
+    def make_empty_board(self):
+        return [
+            [None, None, None],
+            [None, None, None],
+            [None, None, None],
+        ]
 
-    # Printing Pattern with board values
-    print("\n")
-    print("\t     |     |")
-    print(f"\t  {board2[0][0]}  |  {board2[0][1]}  |  {board2[0][2]}")
-    print('\t_____|_____|_____')
- 
-    print("\t     |     |")
-    print(f"\t  {board2[1][0]}  |  {board2[1][1]}  |  {board2[1][2]}")
-    print('\t_____|_____|_____')
- 
-    print("\t     |     |")
- 
-    print(f"\t  {board2[2][0]}  |  {board2[2][1]}  |  {board2[2][2]}")
-    print("\t     |     |")
-    print("\n")
+    def get_player_input(self):
+        prompt = f"Player {self.current_player}, please input your move (row, col): \n"
+        while True:
+            try:
+                player_input = input(prompt)
+                row, col = map(int, player_input.split(','))
+                return row, col
+            except ValueError:
+                print("Invalid input, try again\n")
+
+    def show_board(self):
+        board2 = [[' ' if cell is None else cell for cell in row] for row in self.board]
+
+        print("\n")
+        print("\t     |     |")
+        print(f"\t  {board2[0][0]}  |  {board2[0][1]}  |  {board2[0][2]}")
+        print('\t_____|_____|_____')
+        print("\t     |     |")
+        print(f"\t  {board2[1][0]}  |  {board2[1][1]}  |  {board2[1][2]}")
+        print('\t_____|_____|_____')
+        print("\t     |     |")
+        print(f"\t  {board2[2][0]}  |  {board2[2][1]}  |  {board2[2][2]}")
+        print("\t     |     |")
+        print("\n")
+
+    def switch_player(self):
+        self.current_player = 'O' if self.current_player == 'X' else 'X'
+
+    def play_single_player(self):
+            while self.winner is None and any(None in row for row in self.board):
+                self.show_board()
+                try:
+                    if self.current_player == 'X':
+                        row, col = self.get_player_input()
+                    else:
+                        row, col = self.bot_move()
+                        print(f"Bot (O) chooses: {row}, {col}")
+
+                    if self.board[row][col] is not None:
+                        print("Place already filled. Try again!!")
+                        continue
+                except ValueError:
+                    continue
+
+                self.board[row][col] = self.current_player
+                self.winner = check_winner(self.board)
+                self.switch_player()
+
+            self.show_board()
+            self.display_game_result()
 
 
-def switch_player(current_player):
-    if current_player == "X":
-        return "O"
-    return "X"
+    def bot_move(self):
+        # Simple random move for the bot
+        available_moves = [(i, j) for i in range(3) for j in range(3) if self.board[i][j] is None]
+        return random.choice(available_moves)
+
+
+    def play_double_player(self):
+        while self.winner is None and any(None in row for row in self.board):
+            self.show_board()
+            try:
+                row, col = self.get_player_input()
+                if self.board[row][col] is not None:
+                    print("Place already filled. Try again!!")
+                    continue
+            except ValueError:
+                continue
+
+            self.board[row][col] = self.current_player
+            self.winner = check_winner(self.board)
+            self.switch_player()
+
+        self.show_board()
+        self.display_game_result()
+
+    def display_game_result(self):
+        if self.winner:
+            print(f"Winner is {self.winner}")
+        else:
+            print("It's a tie!")
+
+
+    def play(self):
+        while self.winner is None:
+            self.show_board()
+            try:
+                row, col = self.get_player_input()
+                #Check if place already filled
+                if self.board[row][col] != None:
+                    print("Place already filled. Try again!!")
+                    row, col = self.get_player_input()
+                    continue
+            except ValueError:
+                continue
+
+            self.board[row][col] = self.current_player
+            self.winner = check_winner(self.board)
+            self.switch_player()
+
+        self.show_board()
+        print(f"Winner is {self.winner}")
+
+
+'''if __name__ == '__main__':
+    game = TicTacToeGame()
+    game.play()'''
 
 if __name__ == '__main__':
-    current_player = 'X'
-    board = make_empty_board()
+    print("Welcome to Tic-Tac-Toe!")
 
-    winner = None
+    while True:
+        print("Select game mode:")
+        print("1. Single Player vs Bot")
+        print("2. Double Player")
+        choice = input("Enter your choice (1 or 2): ")
 
-    while winner is None:
-        show_board(board)
-        try:
-            row, col = get_player_input(current_player)
-        except ValueError:
-            print("Invalid Input, try again\n")
+        if choice not in ['1', '2']:
+            print("Invalid choice. Please enter 1 or 2.")
             continue
-        
-        
-        board[row][col] = current_player
-        winner = check_winner(board)
-        current_player = switch_player(current_player)
 
-    show_board(board)
-    print(f"winner is {winner}")
+        game = TicTacToeGame()
+
+        if choice == '1':
+            print("You are playing against the bot!")
+            game.play_single_player()
+        else:
+            print("You are playing against another player!")
+            game.play_double_player()
+
+        play_again = input("Do you want to play again? (yes/no): ").lower()
+        if play_again != 'yes':
+            break
+
+
