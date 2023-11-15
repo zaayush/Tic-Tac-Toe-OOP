@@ -52,9 +52,6 @@ class TicTacToeGame:
                         row, col = self.bot_move()
                         print(f"Bot (O) chooses: {row}, {col}")
 
-                    if self.board[row][col] is not None:
-                        print("Place already filled. Try again!!")
-                        continue
                 except ValueError:
                     continue
 
@@ -77,7 +74,7 @@ class TicTacToeGame:
             self.show_board()
             try:
                 row, col = self.get_player_input()
-                if self.board[row][col] is not None:
+                if self.board[row][col] != None:
                     print("Place already filled. Try again!!")
                     continue
             except ValueError:
