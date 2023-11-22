@@ -20,12 +20,17 @@ class TicTacToeGame:
             try:
                 if player_input is None:
                     player_input = input(prompt)
-                row, col = map(int, player_input.split(','))
-                
+                    row, col = map(int, player_input.split(','))
+                # Check if the spot is already taken
+                if self.board[row][col] is not None:
+                    raise ValueError("Place already filled. Try again")
+                    player_input = None
+                    break
                 return row, col
             except ValueError as e:
                 print(f"Invalid input: {e}\n")
-                
+                player_input = None
+                continue
                 
     def show_board(self):
         board2 = [[' ' if cell is None else cell for cell in row] for row in self.board]
@@ -75,14 +80,7 @@ class TicTacToeGame:
     def play_double_player(self):
         while self.winner is None and any(None in row for row in self.board):
             self.show_board()
-            try:
-                row, col = self.get_player_input()
-                if self.board[row][col] != None:
-                    print("Place already filled. Try again!!")
-                    continue
-            except ValueError:
-                continue
-
+            row, col = self.get_player_input()               
             self.board[row][col] = self.current_player
             self.winner = check_winner(self.board)
             self.switch_player()
@@ -96,31 +94,6 @@ class TicTacToeGame:
         else:
             print("It's a tie!")
 
-
-    def play(self):
-        while self.winner is None:
-            self.show_board()
-            try:
-                row, col = self.get_player_input()
-                #Check if place already filled
-                if self.board[row][col] != None:
-                    print("Place already filled. Try again!!")
-                    row, col = self.get_player_input()
-                    continue
-            except ValueError:
-                continue
-
-            self.board[row][col] = self.current_player
-            self.winner = check_winner(self.board)
-            self.switch_player()
-
-        self.show_board()
-        print(f"Winner is {self.winner}")
-
-
-'''if __name__ == '__main__':
-    game = TicTacToeGame()
-    game.play()'''
 
 if __name__ == '__main__':
     print("Welcome to Tic-Tac-Toe!")
