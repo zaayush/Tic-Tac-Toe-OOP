@@ -14,16 +14,19 @@ class TicTacToeGame:
             [None, None, None],
         ]
 
-    def get_player_input(self):
+    def get_player_input(self, player_input=None):
         prompt = f"Player {self.current_player}, please input your move (row, col): \n"
         while True:
             try:
-                player_input = input(prompt)
+                if player_input is None:
+                    player_input = input(prompt)
                 row, col = map(int, player_input.split(','))
+                
                 return row, col
-            except ValueError:
-                print("Invalid input, try again\n")
-
+            except ValueError as e:
+                print(f"Invalid input: {e}\n")
+                
+                
     def show_board(self):
         board2 = [[' ' if cell is None else cell for cell in row] for row in self.board]
 

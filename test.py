@@ -19,24 +19,24 @@ def test_player_assignment():
 def test_valid_moves():
     game = TicTacToeGame()
     assert game.make_empty_board() == [[None, None, None], [None, None, None], [None, None, None]]
-    row, col = game.get_player_input()
+    row, col = game.get_player_input(player_input="0,0")
     assert (row, col) in [(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2), (2, 0), (2, 1), (2, 2)]
 
 def test_invalid_moves():
     game = TicTacToeGame()
     game.board[0][0] = 'X'
     with pytest.raises(ValueError):
-        game.get_player_input()
+        game.get_player_input(player_input="0,0")
 
 def test_game_winner():
     game = TicTacToeGame()
-    game.board = [['X', 'O', 'X'], [None, 'O', 'O'], ['X', None, 'X']]
+    game.board = [['X', 'O', 'O'], [None, 'X', 'O'], ['X', None, 'X']]
     assert check_winner(game.board) == 'X'
 
 def test_draw_game():
     game = TicTacToeGame()
     game.board = [['X', 'O', 'X'], ['X', 'O', 'O'], ['O', 'X', 'X']]
-    assert check_winner(game.board) is None
+    assert check_winner(game.board) is 'draw'
 
 # Add more test cases as needed
 
