@@ -102,7 +102,7 @@ class TicTacToeGame:
         if self.winner:
             print(f"Winner is {self.winner}")
             log_data = {'winner': self.winner}
-            TicTacToeLogger.log_player_move(log_data)
+            
         else:
             print("It's a tie!")
 
