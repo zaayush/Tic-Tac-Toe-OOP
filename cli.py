@@ -1,3 +1,4 @@
+from logger import TicTacToeLogger
 from logic import check_winner
 import random
 
@@ -93,7 +94,15 @@ class TicTacToeGame:
             print(f"Winner is {self.winner}")
         else:
             print("It's a tie!")
-
+    
+    # Code for logging data
+    def display_game_result(self):
+        if self.winner:
+            print(f"Winner is {self.winner}")
+            log_data = {'winner': self.winner}
+            TicTacToeLogger.log_player_move(log_data)
+        else:
+            print("It's a tie!")
 
 if __name__ == '__main__':
     print("Welcome to Tic-Tac-Toe!")
@@ -113,9 +122,11 @@ if __name__ == '__main__':
         if choice == '1':
             print("You are playing against the bot!")
             game.play_single_player()
+            game.display_game_result()
         else:
             print("You are playing against another player!")
             game.play_double_player()
+            game.display_game_result()
 
         play_again = input("Do you want to play again? (yes/no): ").lower()
         if play_again != 'yes':
