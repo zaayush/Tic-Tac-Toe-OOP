@@ -97,11 +97,11 @@ class TicTacToeGame:
     def display_game_result(self):
         if self.winner:
             print(f"Winner is {self.winner}")
-            if self.current_player == 'X':
-                player1 = 'Bot' if self.current_player == 'O' else 'Player 1'
-                player2 = 'Player 1' if self.current_player == 'O' else 'Bot'
+            if choice == '1':
+                player1, player2 = 'Player 1', 'Bot'
             else:
                 player1, player2 = 'Player 1', 'Player 2'
+            
             end_time = time.time()  # Record the end time of the game
             game_duration = round(end_time - start_time, 2)
             self.logger.log_game_data(self.game_id, self.winner, player1, player2, game_duration)
