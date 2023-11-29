@@ -1,6 +1,8 @@
-from logger import TicTacToeLogger
+
 from logic import check_winner
+from logger import TicTacToeLogger
 import random
+import datetime
 
 class TicTacToeGame:
     def __init__(self):
@@ -107,6 +109,8 @@ class TicTacToeGame:
 if __name__ == '__main__':
     print("Welcome to Tic-Tac-Toe!")
 
+    logger = TicTacToeLogger()
+
     while True:
         print("Select game mode:")
         print("1. Single Player vs Bot")
@@ -121,15 +125,25 @@ if __name__ == '__main__':
 
         if choice == '1':
             print("You are playing against the bot!")
+            start_time = datetime.datetime.now()
             game.play_single_player()
-            game.display_game_result()
+            end_time = datetime.datetime.now()
+            game_duration = end_time - start_time
+            logger.log_game_result("Player 1", "Bot", game.winner, game_duration)
+
         else:
             print("You are playing against another player!")
+            start_time = datetime.datetime.now()
             game.play_double_player()
-            game.display_game_result()
+            end_time = datetime.datetime.now()
+            game_duration = end_time - start_time
+            logger.log_game_result("Player 1", "Player 2", game.winner, game_duration)
+
+        logger.display_statistics()
 
         play_again = input("Do you want to play again? (yes/no): ").lower()
         if play_again != 'yes':
             break
+
 
 
