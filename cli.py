@@ -63,10 +63,10 @@ class TicTacToeGame:
             self.show_board()
             try:
                 if self.current_player == 'X':
-                    '''for c in range(10): #For generating 30 log
+                    for c in range(10): #For generating 30 log
                         row, col = self.bot_move()
-                        c =+1'''
-                    row, col = self.get_player_input()
+                        c =+1
+                    '''row, col = self.get_player_input()'''
                     if first_move is None:  # Capture the first move by player 1
                         first_move = (row, col)
                 else:
@@ -134,10 +134,10 @@ if __name__ == '__main__':
         print("Select game mode:")
         print("1. Single Player vs Bot")
         print("2. Double Player")
-        '''for d in range(10): # For generating log data
+        for d in range(10): # For generating log data
             choice = "1"
-            d =+1'''
-        choice = input("Enter your choice (1 or 2): ")
+            d =+1
+        '''choice = input("Enter your choice (1 or 2): ")'''
 
         if choice not in ['1', '2']:
             print("Invalid choice. Please enter 1 or 2.")
