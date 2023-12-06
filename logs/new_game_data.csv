@@ -29,3 +29,4 @@ Game ID,Winner,Player 1,Player 2,Game Duration,Timestamp,First Move
 1,X,Player 1,Bot,0.0,"(1, 2)",2023-12-06 10:22:03
 1,X,Player 1,Bot,0.0,"(0, 1)",2023-12-06 10:22:05
 1,O,Player 1,Bot,0.0,"(0, 1)",2023-12-06 10:22:06
+1,X,Player 1,Bot,10.99,"(1, 1)",2023-12-06 10:32:52

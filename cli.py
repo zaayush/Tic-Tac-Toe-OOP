@@ -134,6 +134,9 @@ if __name__ == '__main__':
         print("Select game mode:")
         print("1. Single Player vs Bot")
         print("2. Double Player")
+        '''for d in range(10): # For generating log data
+            choice = "1"
+            d =+1'''
         choice = input("Enter your choice (1 or 2): ")
 
         if choice not in ['1', '2']:
@@ -155,5 +158,14 @@ if __name__ == '__main__':
                             
 
         play_again = input("Do you want to play again? (yes/no): ").lower()
+
+        '''for e in range(10):  # for generating log data
+            if e == 10:
+                play_again = 'no'
+            else:
+                play_again = 'yes'
+                e =+1
+            if e == 10:
+                play_again = 'no'''
         if play_again != 'yes':
             break
