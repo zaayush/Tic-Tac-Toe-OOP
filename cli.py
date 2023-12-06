@@ -10,7 +10,8 @@ class TicTacToeGame:
         self.board = self.make_empty_board()
         self.winner = None
         self.logger = TicTacToeLogger()
-        self.game_id = 1
+        self.game_id = None
+        
 
     def make_empty_board(self):
         return [
@@ -56,24 +57,31 @@ class TicTacToeGame:
         self.current_player = 'O' if self.current_player == 'X' else 'X'
 
     def play_single_player(self):
-            while self.winner is None and any(None in row for row in self.board):
-                self.show_board()
-                try:
-                    if self.current_player == 'X':
-                        row, col = self.get_player_input()
-                    else:
-                        row, col = self.bot_move()
-                        print(f"Bot (O) chooses: {row}, {col}")
-
-                except ValueError:
-                    continue
-
-                self.board[row][col] = self.current_player
-                self.winner = check_winner(self.board)
-                self.switch_player()
-
+        first_move = None
+        
+        while self.winner is None and any(None in row for row in self.board):
             self.show_board()
-            self.display_game_result()
+            try:
+                if self.current_player == 'X':
+                    '''for c in range(10): #For generating 30 log
+                        row, col = self.bot_move()
+                        c =+1'''
+                    row, col = self.get_player_input()
+                    if first_move is None:  # Capture the first move by player 1
+                        first_move = (row, col)
+                else:
+                    row, col = self.bot_move()
+                    print(f"Bot (O) chooses: {row}, {col}")
+
+            except ValueError:
+                continue
+
+            self.board[row][col] = self.current_player
+            self.winner = check_winner(self.board)
+            self.switch_player()
+
+        self.show_board()
+        self.display_game_result(first_move)
 
 
     def bot_move(self):
@@ -94,8 +102,9 @@ class TicTacToeGame:
         self.display_game_result()
 
  
-    def display_game_result(self):
+    def display_game_result(self, first_move):
         if self.winner:
+            self.game_id = 1
             print(f"Winner is {self.winner}")
             if choice == '1':
                 player1, player2 = 'Player 1', 'Bot'
@@ -104,8 +113,11 @@ class TicTacToeGame:
             
             end_time = time.time()  # Record the end time of the game
             game_duration = round(end_time - start_time, 2)
-            self.logger.log_game_data(self.game_id, self.winner, player1, player2, game_duration)
-            self.game_id += 1
+            if self.game_id is not None:
+                self.game_id =+ 1
+            
+            self.logger.log_game_data(self.game_id, self.winner, player1, player2, game_duration, first_move)
+            
         else:
             print("It's a tie!")
 

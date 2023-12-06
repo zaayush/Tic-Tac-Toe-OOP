@@ -6,7 +6,7 @@ import pandas as pd
 class TicTacToeLogger:
     def __init__(self):
         self.log_directory = "./logs"
-        self.log_file_path = os.path.join(self.log_directory, "game_data.csv")
+        self.log_file_path = os.path.join(self.log_directory, "new_game_data.csv")
         self.create_log_directory()
         self.create_log_file()
 
@@ -18,9 +18,9 @@ class TicTacToeLogger:
         if not os.path.isfile(self.log_file_path):
             with open(self.log_file_path, 'w', newline='') as file:
                 writer = csv.writer(file)
-                writer.writerow(["Game ID", "Winner", "Player 1", "Player 2", "Game Duration", "Timestamp"])
+                writer.writerow(["Game ID", "Winner", "Player 1", "Player 2", "Game Duration", "Timestamp", "First Move"])
 
-    def log_game_data(self, game_id, winner, player1, player2, game_duration):
+    def log_game_data(self, game_id, winner, player1, player2, game_duration, first_move):
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         game_data = {
             "Game ID": game_id,
@@ -28,6 +28,7 @@ class TicTacToeLogger:
             "Player 1": player1,
             "Player 2": player2,
             "Game Duration": game_duration,
+            "First Move": str(first_move) if first_move else None,
             "Timestamp": timestamp
         }
         self.append_to_csv(game_data)
