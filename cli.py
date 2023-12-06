@@ -1,8 +1,12 @@
 
 from logic import check_winner
 from logger import TicTacToeLogger
-import random
+import random 
 import time
+from random import randint
+
+from time import sleep
+
 
 class TicTacToeGame:
     def __init__(self):
@@ -65,6 +69,7 @@ class TicTacToeGame:
                 if self.current_player == 'X':
                     for c in range(10): #For generating 30 log
                         row, col = self.bot_move()
+                        sleep(randint(0,1)/10)
                         c =+1
                     '''row, col = self.get_player_input()'''
                     if first_move is None:  # Capture the first move by player 1
@@ -106,8 +111,11 @@ class TicTacToeGame:
         if self.winner:
             self.game_id = 1
             print(f"Winner is {self.winner}")
+
             if choice == '1':
-                player1, player2 = 'Player 1', 'Bot'
+                first_names=('John','Andy','Joe')
+                full_name=random.choice(first_names)
+                player1, player2 = full_name, 'Bot'
             else:
                 player1, player2 = 'Player 1', 'Player 2'
             

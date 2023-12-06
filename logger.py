@@ -6,7 +6,7 @@ import pandas as pd
 class TicTacToeLogger:
     def __init__(self):
         self.log_directory = "./logs"
-        self.log_file_path = os.path.join(self.log_directory, "updated2_game_data.csv")
+        self.log_file_path = os.path.join(self.log_directory, "updated3_game_data.csv")
         self.create_log_directory()
         self.create_log_file()
 
