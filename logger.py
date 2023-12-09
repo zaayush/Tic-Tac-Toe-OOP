@@ -2,11 +2,12 @@ import csv
 import os
 import datetime
 import pandas as pd
+import numpy as np
 
 class TicTacToeLogger:
     def __init__(self):
         self.log_directory = "./logs"
-        self.log_file_path = os.path.join(self.log_directory, "updated3_game_data.csv")
+        self.log_file_path = os.path.join(self.log_directory, "updated5_game_data.csv")
         self.create_log_directory()
         self.create_log_file()
 
@@ -22,18 +23,28 @@ class TicTacToeLogger:
 
     def log_game_data(self, game_id, winner, player1, player2, game_duration, first_move):
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        if isinstance(first_move, (tuple, list)):
+            first_move_list = first_move
+        elif isinstance(first_move, np.ndarray):
+            first_move_list = first_move.tolist()
+        else:
+            first_move_list = None
+
         game_data = {
             "Game ID": game_id,
             "Winner": winner,
             "Player 1": player1,
             "Player 2": player2,
             "Game Duration": game_duration,
-            "First Move": str(first_move) if first_move else None,
+            "First Move": first_move_list,
             "Timestamp": timestamp
         }
-        self.append_to_csv(game_data)
+        self.append_to_csv([game_data])  # Pass a list of dictionaries
 
-    def append_to_csv(self, game_data):
-        df = pd.DataFrame(game_data, index=[0])
+    def append_to_csv(self, game_data_list):
+        df = pd.DataFrame(game_data_list)
         df.to_csv(self.log_file_path, mode='a', header=False, index=False)
 
+# Example of usage:
+logger = TicTacToeLogger()
+logger.log_game_data(1, "X", "PlayerA", "PlayerB", 30, (1, 0, 0, 0, 0, 0, 0, 0, 0))  # Replace this tuple with your actual data
